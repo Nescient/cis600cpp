@@ -7,7 +7,8 @@ int main(int argc, char* argv[])
 {
    Config_s config;
    AutomatonCollection_c hw3(config);
-   std::ofstream fout("cis600hw3out.csv");
+   hw3.Run();
+   std::ofstream fout(argc > 1 ? argv[1] : "cis600hw3out.csv");
    fout << "a,b,entropy_width,avg_entropy,entropy_stdev,variance,row_length,time_steps_dropped,total_time_steps,time_taken(seconds)" << std::endl;
    for (auto &r : hw3.GetAutomatonResults())
    {
