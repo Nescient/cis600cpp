@@ -1,8 +1,8 @@
 /// Copyright © Sam Savage 2016
 #pragma once
 
-#include <atomic>
 #include <mutex>
+#include <thread>
 #include <vector>
 
 struct Config_s
@@ -52,10 +52,15 @@ private:
    /// \param b The value of the b constant for the CA.
    void RunAutomaton(double a, double b);
 
+   /// Adds a new thread to the vector if a and b allow it.
+   /// \param threads The current thread pool.
+   /// \return True if a thread was created.
+   bool AddThread(std::vector<std::thread> &threads);
+
 private:
    const Config_s mConfig;
-   std::atomic<double> mCurrentA{0};
-   std::atomic<double> mCurrentB{0};
+   double mCurrentA;
+   double mCurrentB;
    std::mutex mAutomatonMutex;
    const std::vector<double> mInitialCondition;
    std::vector<CA_Info_s> mAutomatons;

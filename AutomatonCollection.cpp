@@ -15,10 +15,9 @@ std::vector<double> get_randoms(size_t len)
 }
 
 AutomatonCollection_c::AutomatonCollection_c(Config_s config) : mConfig(config),
+   mCurrentA(config.a_start), mCurrentB(config.b_start),
    mInitialCondition(get_randoms(config.row_count))
 {
-   this->mCurrentA = this->mConfig.a_start;
-   this->mCurrentB = this->mConfig.b_start;
    return;
 }
 
@@ -26,9 +25,11 @@ void AutomatonCollection_c::Run()
 {
    using namespace std::literals;
    std::vector<std::thread> threads;
-   threads.push_back(std::thread(&AutomatonCollection_c::RunAutomaton, this,
-      this->mCurrentA.fetch_add(this->mConfig.a_increment),
-      this->mCurrentB.fetch_add(this->mConfig.b_increment)));
+
+   for(size_t i = 0; i < 4; ++i)
+   {
+      this->AddThread(threads);
+   }
    while(threads.size() > 0)
    {
       for(std::thread &t : threads)
@@ -36,7 +37,7 @@ void AutomatonCollection_c::Run()
          if (t.joinable())
          {
             t.join();
-            //push_back new one if a < b etc etc
+            this->AddThread(threads);
          }
       }
       std::this_thread::sleep_for(2s);
@@ -66,4 +67,21 @@ void AutomatonCollection_c::RunAutomaton(double a, double b)
    this->mAutomatons.push_back(results);
    this->mAutomatonMutex.unlock();
    return;
+}
+
+bool AutomatonCollection_c::AddThread(std::vector<std::thread> &threads)
+{
+   if (this->mCurrentB <= this->mConfig.b_stop)
+   {
+      threads.push_back(std::thread(&AutomatonCollection_c::RunAutomaton, this,
+         this->mCurrentA, this->mCurrentB));
+      this->mCurrentA += this->mConfig.a_increment;
+      if (this->mCurrentA > this->mConfig.a_stop)
+      {
+         this->mCurrentA = 0;
+         this->mCurrentB += this->mConfig.b_increment;
+      }
+      return true;
+   }
+   return false;
 }
