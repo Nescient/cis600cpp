@@ -1,7 +1,7 @@
 #http://stackoverflow.com/a/16125648
 
 CPP        = g++
-CPPFLAGS   = -Wall -pedantic -O2 -g -std=c++11
+CPPFLAGS   = -Wall -pedantic -O2 -g -std=c++14
 
 HEADERS    := ${wildcard *.hpp}
 SOURCES    := ${wildcard *.cpp}

@@ -35,7 +35,7 @@ public:
       double row_length;
       double time_steps_dropped;
       double total_time_steps;
-      double time_taken;
+      double time_taken;  // seconds
    };
 public:
    /// Creates a new collection of automatons and starts them running.

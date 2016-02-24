@@ -56,6 +56,41 @@ bool CellularAutomaton_c::CreateNewRow()
    return ++this->mRowCount < this->mMaxRowCount;
 }
 
+double CellularAutomaton_c::A() const
+{
+   return this->mA;
+}
+
+double CellularAutomaton_c::B() const
+{
+   return this->mB;
+}
+
+double CellularAutomaton_c::CalculateAverageEntropy() const
+{
+   double avg = 0;
+   for(auto &column : this->mColumnCounts)
+   {
+      avg += column.GetAverageEntropy();
+   }
+   return avg / this->mColumnCounts.size();
+}
+
+double CellularAutomaton_c::CalculateEntropySigma() const
+{
+   return sqrt(this->GetAverageVariance());
+}
+
+double CellularAutomaton_c::GetAverageVariance() const
+{
+   double avg = 0;
+   for(auto &column : this->mColumnCounts)
+   {
+      avg += column.GetEntropyVariance();
+   }
+   return avg / this->mColumnCounts.size();
+}
+
 double CellularAutomaton_c::CalculatePolynomial(const double u/*prev*/, const double x/*curr*/, const double v/*next*/) const
 {
    // taken from Blair's ALife1Dim Java program
@@ -80,25 +115,3 @@ void CellularAutomaton_c::ChangeLastRow(std::vector<double> &newRow)
    }
    return;
 }
-
-double CellularAutomaton_c::CalculateAverageEntropy() const
-{
-   double avg = 0;
-   for(auto &column : this->mColumnCounts)
-   {
-      avg += column.GetAverageEntropy();
-   }
-   return avg / this->mColumnCounts.size();
-}
-
-double CellularAutomaton_c::CalculateEntropySigma() const
-{
-   double avg = 0;
-   for(auto &column : this->mColumnCounts)
-   {
-      avg += column.GetEntropyVariance();
-   }
-   avg /= this->mColumnCounts.size();
-   return sqrt(avg);
-}
-

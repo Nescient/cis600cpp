@@ -28,6 +28,18 @@ public:
    /// \return The value for the b polynomial constant.
    double B() const;
 
+   /// Calculates the average entropy across the entire Cellular Automaton.
+   /// \returns The CA average Shannon's entropy.
+   double CalculateAverageEntropy() const;
+
+   /// Calculates the standard deviation for the entropy across the entire Cellular Automaton.
+   /// \returns The standard deviation for the Shannon's entropy.
+   double CalculateEntropySigma() const;
+
+   /// Gets the variance for the cellular automaton.
+   /// \returns The variance of this CA.
+   double GetAverageVariance() const;
+
 private:
    /// Gets the next value given a previous and its neighbors.
    /// \param prev The previous left neighbor.
@@ -39,14 +51,6 @@ private:
    /// Sets the last row, adds column counts, and updates entropy.
    /// \param newRow The new Last Row.
    void ChangeLastRow(std::vector<double> &newRow);
-
-   /// Calculates the average entropy across the entire Cellular Automaton.
-   /// \returns The CA average Shannon's entropy.
-   double CalculateAverageEntropy() const;
-
-   /// Calculates the standard deviation for the entropy across the entire Cellular Automaton.
-   /// \returns The standard deviation for the Shannon's entropy.
-   double CalculateEntropySigma() const;
 
 private:
    const size_t mInitRowCount;
