@@ -45,6 +45,10 @@ public:
    /// Starts the cellular automaton process, blocking until it finishes.
    void Run();
 
+   /// Gets the Cellular Automaton results.
+   /// \return The CA result structures.
+   const std::vector<CA_Info_s>& GetAutomatonResults() const;
+
 private:
    /// Creates a new automaton and iterates through its time steps,
    /// adding it to the automaton array when done.

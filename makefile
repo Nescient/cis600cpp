@@ -14,7 +14,7 @@ OBJECTS    := ${SOURCES:.cpp=.o}
 all:       main
 
 main:      $(OBJECTS) $(HEADERS) makefile
-	$(CPP) $(CPPFLAGS) $(OBJECTS) -o $@
+	$(CPP) $(CPPFLAGS) $(OBJECTS) -o $@ -pthread
 
 .cpp.o:
 	$(CPP) $(CPPFLAGS) -c $< -o $@

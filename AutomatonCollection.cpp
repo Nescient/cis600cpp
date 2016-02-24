@@ -32,17 +32,24 @@ void AutomatonCollection_c::Run()
    }
    while(threads.size() > 0)
    {
-      for(std::thread &t : threads)
+      for(auto itr = std::begin(threads); itr != std::end(threads); ++itr)
       {
-         if (t.joinable())
+         if (itr->joinable())
          {
-            t.join();
+            itr->join();
+            itr = threads.erase(itr);
+            --itr;
             this->AddThread(threads);
          }
       }
       std::this_thread::sleep_for(2s);
    }
    return;
+}
+
+const std::vector<AutomatonCollection_c::CA_Info_s>& AutomatonCollection_c::GetAutomatonResults() const
+{
+   return this->mAutomatons;
 }
 
 void AutomatonCollection_c::RunAutomaton(double a, double b)
