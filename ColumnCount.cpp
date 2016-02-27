@@ -29,12 +29,14 @@ void ColumnCount_c::UpdateEntropy(const size_t rowCount)
 
 double ColumnCount_c::GetAverageEntropy() const
 {
+   if (this->mEntropy.size() == 0) { return 0; }
    const double sum = std::accumulate(this->mEntropy.begin(), this->mEntropy.end(), 0.0);
    return sum / static_cast<double>(this->mEntropy.size());
 }
 
 double ColumnCount_c::GetEntropyVariance() const
 {
+   if (this->mEntropy.size() == 0) { return 0; }
    const double mean = this->GetAverageEntropy();
    double variance = 0;
    for(auto &entropy : this->mEntropy)
