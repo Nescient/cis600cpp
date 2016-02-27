@@ -47,9 +47,44 @@ void AutomatonCollection_c::Run()
    return;
 }
 
+bool AutomatonCollection_c::InitThreadPool(std::vector<std::thread> &threads, size_t numThreads)
+{
+   bool rval = true;
+   for(size_t i = 0; i < numThreads && rval; ++i)
+   {
+      rval &= this->AddThread(threads);
+   }
+   return rval;
+}
+
+bool AutomatonCollection_c::RunSegment(std::vector<std::thread> &threads)
+{
+   if (threads.size() > 0)
+   {
+      for(auto itr = std::begin(threads); itr != std::end(threads); ++itr)
+      {
+         if (itr->joinable())
+         {
+            itr->join();
+            itr = threads.erase(itr);
+            --itr;
+            this->AddThread(threads);
+            return threads.size() > 0;
+         }
+      }
+      return true;
+   }
+   return false;
+}
+
 const std::vector<AutomatonCollection_c::CA_Info_s>& AutomatonCollection_c::GetAutomatonResults() const
 {
    return this->mAutomatons;
+}
+
+const AutomatonCollection_c::CA_Info_s& AutomatonCollection_c::GetResult(size_t index) const
+{
+   return this->mAutomatons[index];  // no check, throws?
 }
 
 void AutomatonCollection_c::RunAutomaton(double a, double b)

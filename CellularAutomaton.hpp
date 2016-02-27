@@ -21,11 +21,11 @@ public:
    bool CreateNewRow();
 
    /// Gets the current value of the a constant.
-   /// \return The value for the a polynomial constant.
+   /// \returns The value for the a polynomial constant.
    double A() const;
 
    /// Gets the current value of the b constant.
-   /// \return The value for the b polynomial constant.
+   /// \returns The value for the b polynomial constant.
    double B() const;
 
    /// Calculates the average entropy across the entire Cellular Automaton.

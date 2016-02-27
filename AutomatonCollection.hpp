@@ -7,14 +7,14 @@
 
 struct Config_s
 {
-   double a_start = 0;
-   double b_start = 0;
+   double a_start = 1;
+   double b_start = 1;
    double a_stop = 2;
    double b_stop = 2;
-   double a_increment = 0.001;
-   double b_increment = 0.001;
-   double ignore_count = 500;
-   double max_time_step = 2000;
+   double a_increment = 0.1;
+   double b_increment = 0.1;
+   double ignore_count = 0;
+   double max_time_step = 1000;
    int row_count = 400;
 };
 
@@ -45,9 +45,24 @@ public:
    /// Starts the cellular automaton process, blocking until it finishes.
    void Run();
 
+   /// Initializes the thread pool with an initial set of threads.
+   /// \param threads The thread pool vector.
+   /// \param numThreads the initial number of threads to use.
+   /// \returns True if the pool was filled.
+   bool InitThreadPool(std::vector<std::thread> &threads, size_t numThreads = 4);
+
+   /// Runs the cellular automoton on other threads, returning after each finishes.
+   /// \param threads The thread pool to use for running CAs.
+   /// \returns True if more threads are running.
+   bool RunSegment(std::vector<std::thread> &threads);
+
    /// Gets the Cellular Automaton results.
-   /// \return The CA result structures.
+   /// \returns The CA result structures.
    const std::vector<CA_Info_s>& GetAutomatonResults() const;
+
+   /// Returns a single Cellular Automaton result.
+   /// \returns The CA result structure.
+   const CA_Info_s& GetResult(size_t index) const;
 
 private:
    /// Creates a new automaton and iterates through its time steps,
@@ -58,7 +73,7 @@ private:
 
    /// Adds a new thread to the vector if a and b allow it.
    /// \param threads The current thread pool.
-   /// \return True if a thread was created.
+   /// \returns True if a thread was created.
    bool AddThread(std::vector<std::thread> &threads);
 
 private:
