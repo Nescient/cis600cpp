@@ -34,7 +34,7 @@ bool CellularAutomaton_c::CreateNewRow()
    if (this->mInInitialState && (this->mRowCount > this->mInitRowCount))
    {
       this->mInInitialState = false;
-      this->mRowCount = 0;
+      this->mRowCount = 1;
    }
    // if we are half way done and still have 0 entropy, shortcut out
    if (this->mRowCount == (this->mMaxRowCount / 2) && (this->CalculateAverageEntropy() == 0))
