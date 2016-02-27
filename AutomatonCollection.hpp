@@ -7,19 +7,19 @@
 
 struct Config_s
 {
-   double a_start = 1;
-   double b_start = 1;
+   double a_start = 0;
+   double b_start = 0;
    double a_stop = 2;
    double b_stop = 2;
-   double a_increment = 0.1;
-   double b_increment = 0.1;
-   double ignore_count = 0;
-   double max_time_step = 1000;
+   double a_increment = 0.001;
+   double b_increment = 0.001;
+   double ignore_count = 500;
+   double max_time_step = 2000;
    int row_count = 400;
 };
 
 /// This object manages a set of cellular automatons,
-/// running them to completion and saving the results to a file.
+/// running them to completion and saving the results.
 class AutomatonCollection_c
 {
 public:
