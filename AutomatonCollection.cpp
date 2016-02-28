@@ -94,8 +94,21 @@ const AutomatonCollection_c::CA_Info_s& AutomatonCollection_c::GetResult(size_t 
 
 void AutomatonCollection_c::RunAutomaton(double a, double b)
 {
-   CellularAutomaton_c ca(this->mConfig.ignore_count, this->mConfig.max_time_step,
-                           a, b, this->mInitialCondition);
+   static CellularAutomaton_c::Config_s cfg {
+      this->mConfig.ignore_count,
+      this->mConfig.max_time_step,
+      0,
+      0,
+      this->mConfig.lyapunov_error,
+      this->mConfig.lyapunov_angle
+   };
+   cfg.init_row_count = this->mConfig.ignore_count;
+   cfg.max_row_count = this->mConfig.max_time_step;
+   cfg.a = a;
+   cfg.b = b;
+   cfg.error = this->mConfig.lyapunov_error;
+   cfg.angle = this->mConfig.lyapunov_angle;
+   CellularAutomaton_c ca(cfg, this->mInitialCondition);
    const std::clock_t start = std::clock();
    while(ca.CreateNewRow()) {};
    const std::clock_t end = std::clock();
@@ -110,6 +123,7 @@ void AutomatonCollection_c::RunAutomaton(double a, double b)
    results.time_steps_dropped = this->mConfig.ignore_count;
    results.total_time_steps = this->mConfig.max_time_step;
    results.time_taken = static_cast<double>(end - start) / static_cast<double>(CLOCKS_PER_SEC);
+   results.lyapunov_exponent = ca.GetAverageLyapunovExponent();
    this->mAutomatonMutex.lock();
    this->mAutomatons.push_back(results);
    this->mAutomatonMutex.unlock();

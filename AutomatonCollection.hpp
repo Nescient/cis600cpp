@@ -13,9 +13,11 @@ struct Config_s
    double b_stop = 2;
    double a_increment = 0.001;
    double b_increment = 0.001;
-   double ignore_count = 500;
-   double max_time_step = 2000;
+   size_t ignore_count = 500;
+   size_t max_time_step = 2000;
    int row_count = 400;
+   double lyapunov_error = 0.00001;
+   double lyapunov_angle = 3.14159265359;
 };
 
 /// This object manages a set of cellular automatons,
@@ -36,6 +38,7 @@ public:
       double time_steps_dropped;
       double total_time_steps;
       double time_taken;  // seconds
+      double lyapunov_exponent;
    };
 public:
    /// Creates a new collection of automatons and starts them running.

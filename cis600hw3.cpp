@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
    }
    fout << std::endl << "header information and results" << std::endl;
 
-   fout << "a,b,entropy_width,avg_entropy,entropy_stdev,variance,row_length,time_steps_dropped,total_time_steps,time_taken(seconds)" << std::endl;
+   fout << "a,b,entropy_width,avg_entropy,entropy_stdev,variance,row_length,time_steps_dropped,total_time_steps,time_taken(seconds),lyapunov_exponent" << std::endl;
 
    while (hw3.RunSegment(threads))
    {
@@ -37,6 +37,7 @@ int main(int argc, char* argv[])
       fout << ca.time_steps_dropped << ",";
       fout << ca.total_time_steps << ",";
       fout << ca.time_taken << ",";
+      fout << ca.lyapunov_exponent << ",";
       fout << std::endl;
       std::this_thread::sleep_for(2s);
    }
