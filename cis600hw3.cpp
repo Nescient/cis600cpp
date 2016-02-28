@@ -14,6 +14,14 @@ int main(int argc, char* argv[])
    if (!hw3.InitThreadPool(threads)) { return EXIT_FAILURE; }
 
    std::ofstream fout(argc > 1 ? argv[1] : "cis600hw3out.csv");
+
+   fout << "initial condition vector:" << std::endl;
+   for(auto &v : hw3.GetInitialConditions())
+   {
+      fout << v << ",";
+   }
+   fout << std::endl << "header information and results" << std::endl;
+
    fout << "a,b,entropy_width,avg_entropy,entropy_stdev,variance,row_length,time_steps_dropped,total_time_steps,time_taken(seconds)" << std::endl;
 
    while (hw3.RunSegment(threads))

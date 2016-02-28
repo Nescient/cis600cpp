@@ -56,6 +56,10 @@ public:
    /// \returns True if more threads are running.
    bool RunSegment(std::vector<std::thread> &threads);
 
+   /// Gets the set of values used to initialize each cellular automaton.
+   /// \returns The array of double values used to initialize each CA.
+   const std::vector<double>& GetInitialConditions() const;
+
    /// Gets the Cellular Automaton results.
    /// \returns The CA result structures.
    const std::vector<CA_Info_s>& GetAutomatonResults() const;

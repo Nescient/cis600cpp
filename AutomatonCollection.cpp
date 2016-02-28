@@ -77,6 +77,11 @@ bool AutomatonCollection_c::RunSegment(std::vector<std::thread> &threads)
    return false;
 }
 
+const std::vector<double>& AutomatonCollection_c::GetInitialConditions() const
+{
+   return this->mInitialCondition;
+}
+
 const std::vector<AutomatonCollection_c::CA_Info_s>& AutomatonCollection_c::GetAutomatonResults() const
 {
    return this->mAutomatons;
