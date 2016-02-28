@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
       fout << ca.time_steps_dropped << ",";
       fout << ca.total_time_steps << ",";
       fout << ca.time_taken << ",";
-      fout << ca.lyapunov_exponent << ",";
+      fout << ca.lyapunov_exponent;
       fout << std::endl;
       std::this_thread::sleep_for(2s);
    }

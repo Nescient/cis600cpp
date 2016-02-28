@@ -163,10 +163,10 @@ void CellularAutomaton_c::ChangeLastRow(std::vector<double> &newRow, std::vector
          this->mColumnCounts[i].UpdateEntropy(this->mRowCount);
          error_sum += (this->mErrorRow[i] - current) * (this->mErrorRow[i] - current);
       }
-      const static double error_delta = this->mConfig.error * cos(this->mConfig.angle);
+      const static double error_delta = std::abs(this->mConfig.error * cos(this->mConfig.angle));
       const double delta = sqrt(error_sum / static_cast<double>(this->mErrorRow.size()));
       const bool is_neg = (delta < 0);
-      const double final_value = log((is_neg ? (0 - delta) : delta) / error_delta);
+      const double final_value = (delta == 0) ? 0 : log((is_neg ? (0 - delta) : delta) / error_delta);
       this->mErrorFactors.push_back(is_neg ? 0 - final_value : final_value);
    }
    return;
