@@ -59,6 +59,13 @@ private:
    /// \returns The next value for the polynomial.
    double CalculatePolynomial(const double prev, const double curr, const double next) const;
 
+   /// Gets the next value given a previous and its neighbors without shaving off the error.
+   /// \param prev The previous left neighbor.
+   /// \param curr The previous value.
+   /// \param next The previous right neighbor.
+   /// \returns The next value for the polynomial.
+   double CalculateErrorPolynomial(const double prev, const double curr, const double next) const;
+
    /// Sets the last row, adds column counts, and updates entropy.
    /// \param newRow The new Last Row.
    /// \param newError The new error row.

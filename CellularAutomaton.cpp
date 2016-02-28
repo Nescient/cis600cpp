@@ -81,7 +81,7 @@ bool CellularAutomaton_c::CreateNewRow()
          const double previous_e = (i == 0) ? this->mErrorRow[WRAPPED_MOD(i - 1, this->mErrorRow.size())] : this->mErrorRow[i-1];
          const double current_e = this->mErrorRow[i];
          const double next_e = ((i + 1) == this->mErrorRow.size()) ? this->mErrorRow[WRAPPED_MOD(i + 1, this->mErrorRow.size())] : this->mErrorRow[i+1];
-         new_error[i] = this->CalculatePolynomial(previous_e, current_e, next_e);
+         new_error[i] = this->CalculateErrorPolynomial(previous_e, current_e, next_e);
       }
    }
    this->ChangeLastRow(new_row, new_error);
@@ -139,6 +139,13 @@ double CellularAutomaton_c::CalculatePolynomial(const double u/*prev*/, const do
       + (this->A() - this->B()) * v + this->B() * u * v - 2 * u * x * v)));
 }
 
+double CellularAutomaton_c::CalculateErrorPolynomial(const double u/*prev*/, const double x/*curr*/, const double v/*next*/) const
+{
+   // taken from Blair's ALife1Dim Java program
+   return (this->A() + (this->A() + this->B()) * u  +
+      (this->A() - this->B()) * v + this->B() * u * v - 2 * u * x * v);
+}
+
 void CellularAutomaton_c::ChangeLastRow(std::vector<double> &newRow, std::vector<double> &newError)
 {
    this->mLastRow = std::move(newRow);
@@ -154,7 +161,6 @@ void CellularAutomaton_c::ChangeLastRow(std::vector<double> &newRow, std::vector
          const std::string value = gToHexString(previous, current, next);
          this->mColumnCounts[i].IncrementCount(value);
          this->mColumnCounts[i].UpdateEntropy(this->mRowCount);
-
          error_sum += (this->mErrorRow[i] - current) * (this->mErrorRow[i] - current);
       }
       const static double error_delta = this->mConfig.error * cos(this->mConfig.angle);
