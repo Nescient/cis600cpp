@@ -16,7 +16,7 @@ struct Config_s
    size_t ignore_count = 500;
    size_t max_time_step = 2000;
    int row_count = 400;
-   double lyapunov_error = 0.00001;
+   double lyapunov_error = 0.000001;
    double lyapunov_angle = 3.14159265359;
 };
 

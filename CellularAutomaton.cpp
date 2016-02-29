@@ -5,6 +5,10 @@
 #include <sstream>
 #include <numeric>
 
+#ifndef M_PI
+#define M_PI 3.14159265359
+#endif
+
 //http://stackoverflow.com/a/17323608
 #define WRAPPED_MOD(n, m) ((n % m) + m) % m
 
@@ -43,13 +47,13 @@ bool CellularAutomaton_c::CreateNewRow()
 
    if (!this->mInInitialState)
    {
-      const static double error_delta = this->mConfig.error * cos(this->mConfig.angle);
       if (this->mErrorRow.size() == 0)
       {
          this->mErrorRow.resize(this->mLastRow.size());
          for(size_t i = 0; i < this->mLastRow.size(); ++i)
          {
-            this->mErrorRow[i] = this->mLastRow[i] + error_delta;
+            this->mErrorRow[i] = this->mLastRow[i] +
+               (this->mConfig.error * cos(this->mConfig.angle));
          }
       }
       else
@@ -59,8 +63,8 @@ bool CellularAutomaton_c::CreateNewRow()
             if (this->mErrorRow[i] != this->mLastRow[i])
             {
                this->mErrorRow[i] = (this->mErrorRow[i] > this->mLastRow[i]) ?
-                                     this->mLastRow[i] + error_delta :
-                                     this->mLastRow[i] - error_delta;
+                                     this->mLastRow[i] + this->mConfig.error :
+                                     this->mLastRow[i] - this->mConfig.error;
             }
          }
       }
