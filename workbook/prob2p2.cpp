@@ -17,8 +17,11 @@ void count_helper(std::map<int, size_t> &map, int start, int count)
 {
    if (count >= 0)
    {
-      increment_count(map, start - 1);
-      increment_count(map, start + 1);
+      if (count == 0)
+      {
+         increment_count(map, start - 1);
+         increment_count(map, start + 1);
+      }
       count_helper(map, start - 1, count - 1);
       count_helper(map, start + 1, count - 1);
    }
@@ -42,7 +45,7 @@ int main(int argc, char* argv[])
 //   std::cout << std::setw(max_count/10 + 2);
    for(auto &pair : map)
    {
-      if ((max_count % 2) != (std::abs(pair.first) % 2))
+      //if ((max_count % 2) != (std::abs(pair.first) % 2))
       {
          std::cout<<std::setw(max_count/10 + 2) << pair.first << " : " << pair.second << std::endl;
       }
